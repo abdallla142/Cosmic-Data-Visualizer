@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cosmic Data Visualizer (Enhanced)</title>
-    <script src="[https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js](https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js)"></script>
-    <script src="[https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js](https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js)"></script>
-    <script src="[https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.6.4/tween.umd.min.js](https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.6.4/tween.umd.min.js)"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.6.4/tween.umd.min.js"></script>
 
 
     <style>
@@ -450,26 +450,97 @@
     </style>
 </head>
 <body>
+    <!--
+     * How to Use This Website:
+     * Welcome to the Cosmic Data Visualizer! This application transforms real-time and historical space data into a dynamic,
+     * abstract visual experience.
+     *
+     * 1.  **Introduction Screen:** When you first load the page, an introduction screen provides a brief overview
+     * of the application's features. Click "Enter the Cosmos" or wait for a few moments for it to fade away.
+     *
+     * 2.  **Main Visualization (3D Earth, ISS, Detailed Satellites, Astronauts):**
+     * -   **Interactive Earth Background:** A dynamic, rotatable 3D model of the Earth serves as the core background.
+     * You can **click and drag with your mouse** to rotate the scene and explore different objects. The Earth is textured
+     * with a realistic satellite image.
+     * -   **Atmospheric Glow:** A subtle, glowing blue atmosphere surrounds the Earth for added realism.
+     * -   **3D ISS Tracker:** The International Space Station is represented as a slightly larger, more detailed 3D model,
+     * reflecting its structure, orbiting the Earth. Its position is accurately calculated from live latitude and longitude data,
+     * and its recent path is shown as a vibrant, fading trail.
+     * -   **3D Starfield:** A vast and colorful field of stars surrounds the scene, creating an immersive cosmic environment.
+     * The background of the entire scene also features a subtle, swirling cosmic texture.
+     * -   **Detailed Orbiting Satellites:** See multiple generic 3D satellite models orbiting the Earth. These now have more
+     * intricate designs resembling actual satellites with solar panels and main bodies. Each satellite has unique properties.
+     * -   **Astronaut Markers:** Small glowing spheres representing astronauts are positioned near the ISS, reflecting the
+     * number of people currently in space.
+     *
+     * 3.  **Click for Information:**
+     * -   **Click on the ISS, an Astronaut marker, or a Generic Satellite** to bring up a modal window with specific details
+     * about that object (e.g., ISS coordinates, astronaut name, satellite ID). The modal appears centered for optimal viewing.
+     * This modal also includes action buttons:
+     * -   **Focus Camera:** Animates the camera to zoom in on the clicked object.
+     * -   **Ask AI Assistant:** Sends a pre-formatted question about the object to the AI chat, opening the chat if minimized.
+     * -   **Hover Effect:** Move your mouse over interactive 3D objects to see a subtle highlight and a pointer cursor,
+     * indicating they are clickable.
+     * -   **NOTE:** Clicking on the **Earth itself will NOT bring up an info modal** to prevent annoyance during general interaction.
+     *
+     * 4.  **Data Overlay (Bottom Left):**
+     * -   Provides quick, real-time updates on the current APOD title, ISS coordinates (Latitude and Longitude),
+     * and the number of people in space.
+     *
+     * 5.  **Interactive AI Assistant (Top Right):**
+     * -   Engage in a conversation with an AI assistant powered by the Gemini API. Ask it questions about space,
+     * astronomy, or anything related to the cosmos.
+     * -   Type your question in the input field and press Enter or click the "Send" button.
+     * -   The chat window will display your messages and the AI's responses.
+     * -   You can minimize/maximize the chat window using the header button.
+     * -   **NOTE ON GEMINI API ERRORS (e.g., 401 Unauthorized):** If you consistently see 401 or 400 errors for
+     * Gemini API calls, this usually indicates an issue with the API key provisioning by the Canvas environment
+     * or your project's configuration, *not* an error in the JavaScript code itself. The code correctly requests
+     * the `gemini-2.0-flash` model with an empty API key, expecting the environment to inject a valid key.
+     * Please ensure your development environment is correctly set up for Gemini API access if these errors persist.
+     *
+     * 6.  **Control Panel (Bottom Right):**
+     * -   **Toggle Auto-Rotate:** Click to turn the overall scene's automatic rotation on or off.
+     * -   **Recenter Camera:** Click to instantly reset the camera's view to directly face the Earth, providing a default perspective.
+     * -   **Toggle Satellites:** Click to hide or show all the generic orbiting satellites.
+     * -   **Focus ISS:** Click to smoothly move the camera to center and zoom in on the International Space Station.
+     *
+     * 7.  **Error Messages (Top Right, temporary):**
+     * -   If any data fetching encounters an issue (e.g., network problems, API rate limits, or external service downtime),
+     * a temporary error message will appear at the top-right of the screen to inform you. The visualization will
+     * continue to run with available data or default animations.
+     *
+     * 8.  **Responsiveness:** The application is designed to adapt to different screen sizes, providing an optimal viewing
+     * experience on both desktop and mobile devices. The 3D scene will dynamically resize.
+     *
+     * Enjoy your journey through the cosmos in 3D!
+     -->
+
+    <!-- Intro Screen: The initial view for the user, providing context. -->
     <div id="intro-screen">
         <h1>Cosmic Data Visualizer</h1>
         <p>
-            Welcome to your interactive window into Earth's orbit! This application brings real-time space data to life in a stunning 3D environment.
+            Explore space like never before! This interactive visualizer brings real-time data from NASA and other sources
+            to life in a stunning 3D environment orbiting Earth.
         </p>
         <p>
-            Explore our vibrant Earth, track the International Space Station, and discover a fleet of detailed satellites.
-            Click on any object to reveal its information and find new ways to interact. For deeper insights, chat with our AI Assistant!
+            Track the International Space Station, observe dynamic satellites, and even chat with an AI assistant
+            to learn more about the cosmos. Click objects to reveal information and interactive options!
         </p>
         <button id="start-button" class="interactive-button">Enter the Cosmos</button>
     </div>
 
+    <!-- Container for the Three.js WebGL canvas -->
     <div id="webgl-container"></div>
 
+    <!-- Data Overlay: Displays real-time API data points for user reference. -->
     <div id="data-overlay">
         <p><strong>APOD:</strong> <span id="apod-title">Fetching...</span></p>
         <p><strong>ISS Location:</strong> <span id="iss-coords">Fetching...</span></p>
         <p><strong>Astronauts:</strong> <span id="astronaut-count">Fetching...</span></p>
     </div>
 
+    <!-- New: AI Chat Assistant -->
     <div id="chat-assistant-container">
         <div id="chat-header">
             Cosmic AI Assistant
@@ -485,25 +556,27 @@
         </div>
     </div>
 
+    <!-- New: Control Panel -->
     <div id="control-panel">
         <button id="toggle-rotate-button" class="interactive-button">Toggle Auto-Rotate</button>
         <button id="recenter-camera-button" class="interactive-button">Recenter Camera</button>
-        <button id="toggle-satellites-button" class="interactive-button">Hide Satellites</button>
-        <button id="focus-iss-button" class="interactive-button">Focus ISS</button>
-        <button id="toggle-asteroid-belt-button" class="interactive-button">Hide Asteroid Belt</button>
-        <button id="toggle-orbit-paths-button" class="interactive-button">Hide Orbit Paths</button>
+        <button id="toggle-satellites-button" class="interactive-button">Toggle Satellites</button>
+        <button id="focus-iss-button" class="interactive-button">Focus ISS</button> <!-- New Focus ISS button -->
     </div>
 
+    <!-- Loading Indicator: Appears during initial data fetching. -->
     <div id="loading-indicator">
         <p>Loading Cosmic Data...</p>
         <p>Please wait for the universe to align!</p>
     </div>
 
+    <!-- Error Message: Displays transient error notifications. -->
     <div id="error-message">
         <p>API Error: Failed to fetch some data. Displaying default animation.</p>
         <p>Check console for details.</p>
     </div>
 
+    <!-- New: Modal for displaying clicked object info -->
     <div id="object-info-modal">
         <button class="close-button">&times;</button>
         <h3 id="modal-title"></h3>
@@ -515,44 +588,55 @@
     </div>
 
     <script>
+        /*
+         * Main JavaScript (Three.js integration and API logic):
+         * This script sets up a 3D scene using Three.js, visualizes Earth and ISS,
+         * integrates with external APIs for real-time data, and manages UI elements.
+         */
+
+        // --- Configuration Constants ---
         const NASA_API_KEY = '3IbGcjTrcVIaaocozzHg4dqq1Nj8a2rnayRsxKEX';
-        const ISS_FETCH_INTERVAL = 7000;
-        const ASTRO_FETCH_INTERVAL = 35000;
-        const ERROR_DISPLAY_DURATION = 8000;
-        const INTRO_SCREEN_FADE_DELAY = 500;
-        const NUM_GENERIC_SATELLITES = 20;
-        const SATELLITE_ORBIT_MIN_ALT = 0.15;
-        const SATELLITE_ORBIT_MAX_ALT = 0.5;
-        const NUM_ASTEROIDS = 1000;
-        const ASTEROID_BELT_MIN_RADIUS = 1.8;
-        const ASTEROID_BELT_MAX_RADIUS = 2.5;
+        const ISS_FETCH_INTERVAL = 7000; // Interval in milliseconds to fetch ISS location (7 seconds)
+        const ASTRO_FETCH_INTERVAL = 35000; // Interval in milliseconds to fetch astronauts in space (35 seconds)
+        const ERROR_DISPLAY_DURATION = 8000; // How long error messages are displayed (8 seconds)
+        const INTRO_SCREEN_FADE_DELAY = 500; // Delay before intro screen starts fading out after load (0.5 seconds)
+        const NUM_GENERIC_SATELLITES = 20; // Number of additional generic satellites to display
+        const SATELLITE_ORBIT_MIN_ALT = 0.15; // Minimum altitude offset from Earth for generic satellites (relative to Earth's radius 1)
+        const SATELLITE_ORBIT_MAX_ALT = 0.5; // Maximum altitude offset from Earth for generic satellites (relative to Earth's radius 1)
 
+        // Three.js Scene Variables
         let scene, camera, renderer, controls;
-        let earth, earthAtmosphere, issMarker, stars, asteroidBelt;
+        let earth, earthAtmosphere, issMarker, stars; // Added earthAtmosphere
         let issTrailGeo, issTrailMat, issTrailLine;
-        let genericSatellites = [];
-        let astronautMarkers = [];
-        let orbitPaths = [];
-        let mouse = new THREE.Vector2();
-        let raycaster = new THREE.Raycaster();
-        let currentlyHoveredObject = null;
-        let clicked3DObject = null;
+        let genericSatellites = []; // Array to hold generic satellite meshes (now groups)
+        let astronautMarkers = []; // Array to hold individual astronaut meshes
+        let mouse = new THREE.Vector2(); // Mouse coordinates for raycasting
+        let raycaster = new THREE.Raycaster(); // Raycaster for click detection
+        let currentlyHoveredObject = null; // Track object for hover effect
+        let clicked3DObject = null; // Stores the 3D object that was last clicked
 
-        let apodImage = null;
-        let apodTitle = "Fetching Astronomy Picture...";
-        let issLatitude = 0;
-        let issLongitude = 0;
-        let astronauts = 0;
-        let astronautsNames = [];
+        // --- Global State Variables ---
+        let apodImage = null; // Stores the loaded APOD texture
+        let apodTitle = "Fetching Astronomy Picture..."; // Current APOD title
+        let issLatitude = 0; // Current ISS latitude
+        let issLongitude = 0; // Current ISS longitude
+        let astronauts = 0; // Number of astronauts in space
+        let astronautsNames = []; // Names of astronauts from Open-Notify API
+        let issTrailPositions = []; // Stores historical ISS positions for the 3D trail
+        const MAX_TRAIL_POINTS = 100; // Max number of points in the ISS trail
 
-        let isLoading = true;
-        let errorMessageTimeout;
+        let isLoading = true; // Flag indicating if the initial data is still loading
+        let errorMessageTimeout; // Timer ID for clearing error messages
 
-        let chatHistory = [{ role: "model", parts: [{ text: "Hello! Ask me anything about space and the cosmos. Feel free to ask about Earth, the ISS, or the satellites around it!" }] }];
+        // AI Assistant related variables
+        let chatHistory = [{ role: "model", parts: [{ text: "Hello! Ask me anything about space and the cosmos. Feel free to ask about Earth, the ISS, or the satellites around it!" }] }]; // Stores conversation history for AI
         let isAITyping = false;
 
+        // IMPORTANT: The `geminiApiKey` is intentionally an empty string. The Canvas environment
+        // is configured to automatically inject the API key for `gemini-2.0-flash` models.
         const geminiApiKey = "";
 
+        // --- DOM Element References ---
         let webglContainer;
         let dataOverlay;
         let apodTitleSpan;
@@ -563,11 +647,16 @@
         let introScreen;
         let startButton;
         let objectInfoModal, modalTitle, modalContent, closeModalButton;
-        let modalFocusButton, modalAskAIButton;
+        let modalFocusButton, modalAskAIButton; // New buttons in the modal
+        // AI Assistant DOM elements
         let chatAssistantContainer, chatHeader, chatMinimizeButton, chatWindow, chatInput, chatSendButton, aiTypingIndicator;
-        let controlPanel, toggleRotateButton, recenterCameraButton, toggleSatellitesButton, focusIssButton, toggleAsteroidBeltButton, toggleOrbitPathsButton;
+        // Control Panel DOM elements
+        let controlPanel, toggleRotateButton, recenterCameraButton, toggleSatellitesButton, focusIssButton; // New Focus ISS button
 
+
+        // --- Initialization ---
         window.onload = function() {
+            // Get DOM element references once the window is loaded
             webglContainer = document.getElementById('webgl-container');
             dataOverlay = document.getElementById('data-overlay');
             apodTitleSpan = document.getElementById('apod-title');
@@ -581,8 +670,10 @@
             modalTitle = document.getElementById('modal-title');
             modalContent = document.getElementById('modal-content');
             closeModalButton = objectInfoModal.querySelector('.close-button');
+            // New modal buttons
             modalFocusButton = document.getElementById('modal-focus-button');
             modalAskAIButton = document.getElementById('modal-ask-ai-button');
+            // AI Assistant DOM elements
             chatAssistantContainer = document.getElementById('chat-assistant-container');
             chatHeader = document.getElementById('chat-header');
             chatMinimizeButton = document.getElementById('chat-minimize-button');
@@ -590,19 +681,22 @@
             chatInput = document.getElementById('chat-input');
             chatSendButton = document.getElementById('chat-send-button');
             aiTypingIndicator = document.getElementById('ai-typing-indicator');
+            // Control Panel DOM elements
             controlPanel = document.getElementById('control-panel');
             toggleRotateButton = document.getElementById('toggle-rotate-button');
             recenterCameraButton = document.getElementById('recenter-camera-button');
             toggleSatellitesButton = document.getElementById('toggle-satellites-button');
-            focusIssButton = document.getElementById('focus-iss-button');
-            toggleAsteroidBeltButton = document.getElementById('toggle-asteroid-belt-button');
-            toggleOrbitPathsButton = document.getElementById('toggle-orbit-paths-button');
+            focusIssButton = document.getElementById('focus-iss-button'); // Get Focus ISS button
 
+
+            // Add event listeners for UI buttons
             startButton.addEventListener('click', hideIntroScreen);
             closeModalButton.addEventListener('click', hideObjectInfo);
+            // New modal button listeners
             modalFocusButton.addEventListener('click', () => focusCameraOnObject(clicked3DObject));
             modalAskAIButton.addEventListener('click', () => askAIAboutObject(clicked3DObject));
 
+            // AI Assistant event listeners
             chatSendButton.addEventListener('click', sendChatMessage);
             chatInput.addEventListener('keypress', (event) => {
                 if (event.key === 'Enter') {
@@ -610,33 +704,40 @@
                 }
             });
             chatMinimizeButton.addEventListener('click', toggleChatMinimize);
+            // Control Panel event listeners
             toggleRotateButton.addEventListener('click', toggleAutoRotate);
             recenterCameraButton.addEventListener('click', recenterCamera);
             toggleSatellitesButton.addEventListener('click', toggleSatellitesVisibility);
-            focusIssButton.addEventListener('click', () => focusCameraOnObject(issMarker));
-            toggleAsteroidBeltButton.addEventListener('click', toggleAsteroidBeltVisibility);
-            toggleOrbitPathsButton.addEventListener('click', toggleOrbitPathsVisibility);
+            focusIssButton.addEventListener('click', () => focusCameraOnObject(issMarker)); // Add click listener for Focus ISS
 
-            init3DScene();
-            animate();
 
+            init3DScene(); // Initialize the Three.js scene
+            animate(); // Start the animation loop
+
+            // Add mouse/touch listeners for raycasting (click and hover detection)
             webglContainer.addEventListener('mousemove', onDocumentMouseMove, false);
             webglContainer.addEventListener('click', onDocumentClick, false);
             webglContainer.addEventListener('mousedown', () => webglContainer.classList.add('grabbing'), false);
             webglContainer.addEventListener('mouseup', () => webglContainer.classList.remove('grabbing'), false);
+            // Also for touch events for mobile
             webglContainer.addEventListener('touchstart', (event) => {
-                if (event.touches.length === 1) {
-                    onDocumentMouseMove(event.touches[0]);
+                if (event.touches.length === 1) { // Only handle single touch for selection
+                    onDocumentMouseMove(event.touches[0]); // Use first touch for position
+                    // No direct click event, will simulate click after touchEnd
                 }
             }, false);
             webglContainer.addEventListener('touchend', (event) => {
+                // Simple tap detection by checking if no significant movement occurred
+                // This is a simplified tap check. For robust touch, track touchstart/move/end positions.
                 if (event.changedTouches.length === 1) {
                     onDocumentClick(event.changedTouches[0]);
                 }
             }, false);
 
+
+            // --- Initial Asynchronous Data Fetches ---
             Promise.allSettled([
-                fetchAPOD(),
+                fetchAPOD(), // Fetches APOD data (title and image URL)
                 fetchISSLocation(),
                 fetchPeopleInSpace()
             ]).then(() => {
@@ -648,71 +749,86 @@
                     }
                 }, INTRO_SCREEN_FADE_DELAY);
 
-                updateChatWindow();
+                // Initial AI greeting (already in chatHistory)
+                updateChatWindow(); // Call updateChatWindow after DOM elements are ready
             });
 
+            // --- Set up Periodic Data Fetches ---
             setInterval(fetchISSLocation, ISS_FETCH_INTERVAL);
             setInterval(fetchPeopleInSpace, ASTRO_FETCH_INTERVAL);
 
+            // Handle window resizing
             window.addEventListener('resize', onWindowResize, false);
         };
 
+        /**
+         * Initializes the Three.js scene, camera, renderer, and basic objects.
+         */
         function init3DScene() {
+            // Scene: The container for all 3D objects, lights, and cameras.
             scene = new THREE.Scene();
 
+            // Load a background texture for the entire scene (a subtle cosmic image)
             const backgroundTextureLoader = new THREE.TextureLoader();
             backgroundTextureLoader.load(
-                '[https://cdn.jsdelivr.net/npm/three-globe@2.27.6/example/img/night-sky.png](https://cdn.jsdelivr.net/npm/three-globe@2.27.6/example/img/night-sky.png)',
+                'https://cdn.jsdelivr.net/npm/three-globe@2.27.6/example/img/night-sky.png', // A generic night sky/galaxy texture
                 (texture) => {
                     scene.background = texture;
                 },
                 undefined,
                 (err) => {
                     console.error('Failed to load scene background texture:', err);
-                    scene.background = new THREE.Color(0x000000);
+                    scene.background = new THREE.Color(0x000000); // Fallback to black
                 }
             );
 
+            // Camera: Defines the perspective from which the scene is viewed.
             camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.z = 2;
+            camera.position.z = 2; // Position the camera away from the center.
 
+            // Renderer: Renders the scene using WebGL.
             renderer = new THREE.WebGLRenderer({ antialias: true });
             renderer.setSize(window.innerWidth, window.innerHeight);
-            webglContainer.appendChild(renderer.domElement);
+            webglContainer.appendChild(renderer.domElement); // Add the renderer's canvas to the DOM.
 
+            // Controls: Allows mouse interaction (orbiting) with the scene.
             controls = new THREE.OrbitControls(camera, renderer.domElement);
-            controls.minDistance = 1.2;
-            controls.maxDistance = 10;
-            controls.enablePan = true;
-            controls.autoRotate = true;
-            controls.autoRotateSpeed = 0.5;
-            controls.target.set(0, 0, 0);
+            controls.minDistance = 1.2; // Prevent zooming too close to Earth.
+            controls.maxDistance = 10;  // Prevent zooming too far from Earth.
+            controls.enablePan = false; // Disable panning.
+            controls.autoRotate = true; // Auto-rotate for dynamic view
+            controls.autoRotateSpeed = 0.5; // Speed of auto-rotation
+            controls.target.set(0, 0, 0); // Camera orbits around the solar system center (Sun's implicit position)
 
-            const ambientLight = new THREE.AmbientLight(0x404040, 2);
+            // Lighting: Essential for seeing 3D objects. More colorful lights.
+            const ambientLight = new THREE.AmbientLight(0x404040, 2); // Softer white ambient light, slightly less intense
             scene.add(ambientLight);
             
-            const directionalLight = new THREE.DirectionalLight(0xffeedd, 3);
+            // Directional light simulating sunlight
+            const directionalLight = new THREE.DirectionalLight(0xffeedd, 3); // Warm white light
             directionalLight.position.set(5, 3, 5).normalize();
             scene.add(directionalLight);
 
-            const earthGeometry = new THREE.SphereGeometry(1, 64, 64);
+            // Create Earth (Sphere with texture)
+            const earthGeometry = new THREE.SphereGeometry(1, 64, 64); // Radius 1, high detail.
             const earthMaterial = new THREE.MeshPhongMaterial({
-                map: new THREE.TextureLoader().load('[https://unpkg.com/three-globe@2.27.6/example/img/earth-blue-marble.jpg](https://unpkg.com/three-globe@2.27.6/example/img/earth-blue-marble.jpg)'),
-                specular: new THREE.Color(0x333333),
+                map: new THREE.TextureLoader().load('https://unpkg.com/three-globe@2.27.6/example/img/earth-blue-marble.jpg'), // Earth texture with night lights
+                specular: new THREE.Color(0x333333), // Adds a shiny spot.
                 shininess: 15,
-                emissive: 0x000011
+                emissive: 0x000011 // Subtle blue emissive for "night lights" effect
             });
             earth = new THREE.Mesh(earthGeometry, earthMaterial);
             earth.name = "Earth";
             earth.userData = { type: 'Planet', name: 'Earth', description: 'Our home planet, vibrant with life.' };
-            scene.add(earth);
+            scene.add(earth); // Earth is at the center (0,0,0) for this version.
 
-            const atmosphereGeometry = new THREE.SphereGeometry(1.02, 64, 64);
+            // Create Earth Atmosphere (a glow effect)
+            const atmosphereGeometry = new THREE.SphereGeometry(1.02, 64, 64); // Slightly larger sphere
             const atmosphereMaterial = new THREE.ShaderMaterial({
                 uniforms: {
-                    c: { type: "f", value: 0.1 },
-                    p: { type: "f", value: 4.0 },
-                    glowColor: { type: "c", value: new THREE.Color(0x00aaff) }
+                    c: { type: "f", value: 0.1 }, // controls density of the atmosphere (smaller = denser)
+                    p: { type: "f", value: 4.0 }, // controls how quickly atmosphere fades (higher = faster)
+                    glowColor: { type: "c", value: new THREE.Color(0x00aaff) } // light blue glow
                 },
                 vertexShader: `
                     uniform float c;
@@ -732,29 +848,30 @@
                         gl_FragColor = vec4( glowColor, 1.0 ) * intensity;
                     }
                 `,
-                side: THREE.BackSide,
-                blending: THREE.AdditiveBlending,
+                side: THREE.BackSide, // Render from inside the sphere
+                blending: THREE.AdditiveBlending, // For glowing effect
                 transparent: true
             });
             earthAtmosphere = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
             scene.add(earthAtmosphere);
 
 
-            const issBodyGeometry = new THREE.BoxGeometry(0.03, 0.03, 0.06);
-            const issPanelGeometry = new THREE.BoxGeometry(0.1, 0.005, 0.04);
-            const issAntennaGeometry = new THREE.CylinderGeometry(0.003, 0.003, 0.05, 8);
+            // Create ISS Marker (slightly larger and more complex for "satellite look")
+            const issBodyGeometry = new THREE.BoxGeometry(0.03, 0.03, 0.06); // Main body
+            const issPanelGeometry = new THREE.BoxGeometry(0.1, 0.005, 0.04); // Solar panels
+            const issAntennaGeometry = new THREE.CylinderGeometry(0.003, 0.003, 0.05, 8); // Antenna
 
-            const issMainMaterial = new THREE.MeshPhongMaterial({ color: 0xcccccc, emissive: 0x111111 });
-            const issPanelMaterial = new THREE.MeshBasicMaterial({ color: 0x444444, side: THREE.DoubleSide });
+            const issMainMaterial = new THREE.MeshPhongMaterial({ color: 0xcccccc, emissive: 0x111111 }); // Light grey body
+            const issPanelMaterial = new THREE.MeshBasicMaterial({ color: 0x444444, side: THREE.DoubleSide }); // Dark panels
             const issAntennaMaterial = new THREE.MeshBasicMaterial({ color: 0x888888 });
 
-            issMarker = new THREE.Group();
+            issMarker = new THREE.Group(); // ISS is now a group of meshes
             const issBody = new THREE.Mesh(issBodyGeometry, issMainMaterial);
             issMarker.add(issBody);
 
             const issPanel1 = new THREE.Mesh(issPanelGeometry, issPanelMaterial);
             issPanel1.position.x = -0.07;
-            issBody.add(issPanel1);
+            issBody.add(issPanel1); // Add to body so it rotates with body
 
             const issPanel2 = new THREE.Mesh(issPanelGeometry, issPanelMaterial);
             issPanel2.position.x = 0.07;
@@ -764,39 +881,49 @@
             issAntenna.position.y = 0.04;
             issBody.add(issAntenna);
 
-            issMarker.name = "ISS";
+            issMarker.name = "ISS"; // Name the group for raycasting
+            // userData needs to be on the group for raycasting to pick it up correctly
             issMarker.userData = { type: 'Satellite', id: 'ISS (International Space Station)', description: 'Humanity\'s orbiting research outpost, a collaborative project of many nations.' };
             scene.add(issMarker);
 
 
+            // Create ISS Trail
             issTrailGeo = new THREE.BufferGeometry();
             issTrailMat = new THREE.LineBasicMaterial({
-                vertexColors: true,
+                vertexColors: true, // Enable vertex colors for gradient trail
                 transparent: true,
                 opacity: 0.9,
-                blending: THREE.AdditiveBlending
+                blending: THREE.AdditiveBlending // For a glowing effect
             });
             issTrailLine = new THREE.Line(issTrailGeo, issTrailMat);
             scene.add(issTrailLine);
 
+            // Create Generic Satellites
             createGenericSatellites();
+
+            // Create Starfield
             createStars();
-            createAsteroidBelt();
-            createOrbitPaths();
-        };
+        }
 
+        /**
+         * `animate()`: Three.js render loop.
+         * This function runs continuously, updating the scene and rendering each frame.
+         */
         function animate() {
-            requestAnimationFrame(animate);
+            requestAnimationFrame(animate); // Request the next frame.
 
-            controls.update();
+            controls.update(); // Update controls (auto-rotate if enabled, and user interaction)
 
+            // Make sure the atmosphere follows the Earth perfectly
             if (earthAtmosphere) {
                 earthAtmosphere.position.copy(earth.position);
             }
 
-            updateISSMarker();
+            updateISSMarker(); // Update ISS marker position and trail
 
+            // Update generic satellites' positions and rotations
             genericSatellites.forEach(satelliteGroup => {
+                // Orbital motion for generic satellites around Earth (centered at 0,0,0)
                 const orbitalRadius = satelliteGroup.userData.orbitRadius;
                 const orbitalSpeed = satelliteGroup.userData.orbitalSpeed;
                 const initialAngle = satelliteGroup.userData.initialAngle || 0;
@@ -804,48 +931,66 @@
                 const angle = (performance.now() * orbitalSpeed) + initialAngle;
                 satelliteGroup.position.x = orbitalRadius * Math.cos(angle);
                 satelliteGroup.position.z = orbitalRadius * Math.sin(angle);
+                // Maintain Y-offset for varied inclinations
                 satelliteGroup.position.y = satelliteGroup.userData.yOffset;
                 
-                if (satelliteGroup.children[0]) {
-                    satelliteGroup.children[0].rotation.y += 0.02;
-                    satelliteGroup.children[0].rotation.x += 0.01;
+                // Rotate the satellite model itself (its main body)
+                if (satelliteGroup.children[0]) { // Assuming the main body is the first child
+                    satelliteGroup.children[0].rotation.y += 0.02; // Rotate the body around its own Y axis
+                    satelliteGroup.children[0].rotation.x += 0.01; // And a little on X for tumbling effect
                 }
             });
 
-            asteroidBelt.rotation.y += 0.0001;
-
+            // Handle hovering over 3D objects
             checkHoveredObjects();
 
+            // Update TWEEN animations (for click effects and camera movements)
             TWEEN.update();
 
-            renderer.render(scene, camera);
-        };
+            renderer.render(scene, camera); // Render the scene
+        }
 
+        /**
+         * Handles window resizing events to maintain responsive 3D scene.
+         */
         function onWindowResize() {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
-        };
+        }
 
+        /**
+         * Converts latitude, longitude, and altitude to 3D Cartesian coordinates.
+         * @param {number} lat - Latitude in degrees.
+         * @param {number} lon - Longitude in degrees.
+         * @param {number} radius - Distance from the center of the sphere.
+         * @returns {THREE.Vector3} A Three.js Vector3 representing the Cartesian coordinates.
+         */
         function convertSphericalToCartesian(lat, lon, radius) {
             const latRad = THREE.MathUtils.degToRad(lat);
             const lonRad = THREE.MathUtils.degToRad(lon);
 
+            // Standard spherical to Cartesian conversion in Three.js (Y-up, X-right, Z-forward)
             const x = radius * Math.cos(latRad) * Math.cos(lonRad);
             const y = radius * Math.sin(latRad);
             const z = radius * Math.cos(latRad) * Math.sin(lonRad);
             return new THREE.Vector3(x, y, z);
-        };
+        }
 
 
+        /**
+         * Updates the 3D position of the ISS marker based on latest fetched data.
+         * Also updates the ISS trail.
+         */
         function updateISSMarker() {
-            const earthRadius = 1;
-            const issAltitudeFactor = 0.08;
+            const earthRadius = 1; // Earth is at origin (0,0,0)
+            const issAltitudeFactor = 0.08; // ~400km above Earth (relative to Earth's radius 1 unit)
             const radius = earthRadius + issAltitudeFactor;
 
             const issPosition = convertSphericalToCartesian(issLatitude, issLongitude, radius);
             issMarker.position.copy(issPosition);
 
+            // Update ISS trail
             issTrailPositions.push(issMarker.position.clone());
             if (issTrailPositions.length > MAX_TRAIL_POINTS) {
                 issTrailPositions.shift();
@@ -853,9 +998,9 @@
 
             const positions = [];
             const colors = [];
-            const colorStart = new THREE.Color(0x00FFFF);
-            const colorMiddle = new THREE.Color(0x8A2BE2);
-            const colorEnd = new THREE.Color(0x4B0082);
+            const colorStart = new THREE.Color(0x00FFFF); // Bright Cyan
+            const colorMiddle = new THREE.Color(0x8A2BE2); // Blue Violet (purple)
+            const colorEnd = new THREE.Color(0x4B0082); // Dark Indigo
 
             for (let i = 0; i < issTrailPositions.length; i++) {
                 const p = issTrailPositions[i];
@@ -877,16 +1022,21 @@
             issTrailLine.geometry.attributes.color.needsUpdate = true;
             issTrailLine.geometry.setDrawRange(0, issTrailPositions.length);
 
+            // Update astronaut markers' positions relative to ISS
             astronautMarkers.forEach(astronaut => {
+                // Position astronauts very close to the ISS marker
                 const offset = new THREE.Vector3(
-                    (Math.random() - 0.5) * 0.01,
-                    (Math.random() - 0.5) * 0.01,
-                    (Math.random() - 0.5) * 0.01
+                    (Math.random() - 0.5) * 0.01, // Small random X offset
+                    (Math.random() - 0.5) * 0.01, // Small random Y offset
+                    (Math.random() - 0.5) * 0.01  // Small random Z offset
                 );
                 astronaut.position.copy(issMarker.position).add(offset);
             });
-        };
+        }
 
+        /**
+         * Creates a 3D starfield around the scene with varying colors and twinkling.
+         */
         function createStars() {
             const starGeometry = new THREE.BufferGeometry();
             const starVertices = [];
@@ -918,54 +1068,60 @@
 
             stars = new THREE.Points(starGeometry, starMaterial);
             scene.add(stars);
-        };
+        }
 
+        /**
+         * Creates a simplified 3D model of a satellite with a main body and panels.
+         * @param {number} mainColor - The main color of the satellite.
+         * @returns {THREE.Group} A Three.js Group object representing the satellite.
+         */
         function createSatelliteModel(mainColor) {
             const satelliteGroup = new THREE.Group();
 
-            let bodyGeometry;
-            if (Math.random() > 0.5) {
-                bodyGeometry = new THREE.BoxGeometry(0.02, 0.02, 0.04);
-            } else {
-                bodyGeometry = new THREE.CylinderGeometry(0.015, 0.015, 0.04, 16);
-            }
+            // Main body (a central box) - use MeshStandardMaterial for more realism
+            const bodyGeometry = new THREE.BoxGeometry(0.02, 0.02, 0.04); // Slightly longer body
             const bodyMaterial = new THREE.MeshStandardMaterial({
                 color: mainColor,
                 roughness: 0.7,
                 metalness: 0.2,
-                emissive: 0x010101
+                emissive: 0x010101 // Very subtle self-illumination
             });
             const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
             satelliteGroup.add(body);
 
-            const panelGeometry = new THREE.BoxGeometry(0.06, 0.003, 0.03);
+            // Solar panels (thin rectangular prisms) - more realistic with slight metallic sheen
+            const panelGeometry = new THREE.BoxGeometry(0.06, 0.003, 0.03); // Thinner panels
             const panelMaterial = new THREE.MeshStandardMaterial({
-                color: 0x1a1a1a,
-                metalness: 0.9,
+                color: 0x1a1a1a, // Dark grey for panels
+                metalness: 0.9, // Make them look metallic
                 roughness: 0.3,
-                side: THREE.DoubleSide
+                side: THREE.DoubleSide // Render both sides
             });
 
+            // Left panel
             const panel1 = new THREE.Mesh(panelGeometry, panelMaterial);
-            panel1.position.x = -0.04;
-            panel1.rotation.y = Math.PI / 2;
+            panel1.position.x = -0.04; // Position relative to body
+            panel1.rotation.y = Math.PI / 2; // Rotate to face outward
             satelliteGroup.add(panel1);
 
+            // Right panel
             const panel2 = new THREE.Mesh(panelGeometry, panelMaterial);
-            panel2.position.x = 0.04;
+            panel2.position.x = 0.04; // Position relative to body
             panel2.rotation.y = Math.PI / 2;
             satelliteGroup.add(panel2);
 
-            const antennaGeometry = new THREE.CylinderGeometry(0.003, 0.003, 0.03, 8);
+            // Antenna (simple cylinder on top, slightly more defined)
+            const antennaGeometry = new THREE.CylinderGeometry(0.003, 0.003, 0.03, 8); // Thinner, slightly shorter
             const antennaMaterial = new THREE.MeshStandardMaterial({ color: 0x888888, metalness: 0.8, roughness: 0.4 });
             const antenna = new THREE.Mesh(antennaGeometry, antennaMaterial);
-            antenna.position.y = 0.025;
+            antenna.position.y = 0.025; // On top of the body
             satelliteGroup.add(antenna);
 
+            // Small thrusters/protrusions (tiny cylinders on ends)
             const thrusterGeometry = new THREE.CylinderGeometry(0.004, 0.004, 0.01, 6);
             const thrusterMaterial = new THREE.MeshStandardMaterial({ color: 0x555555 });
             const thruster1 = new THREE.Mesh(thrusterGeometry, thrusterMaterial);
-            thruster1.position.z = 0.025;
+            thruster1.position.z = 0.025; // End of the body
             thruster1.rotation.x = Math.PI / 2;
             satelliteGroup.add(thruster1);
             const thruster2 = new THREE.Mesh(thrusterGeometry, thrusterMaterial);
@@ -975,8 +1131,11 @@
 
 
             return satelliteGroup;
-        };
+        }
 
+        /**
+         * Creates additional generic satellite models orbiting Earth with a more detailed look.
+         */
         function createGenericSatellites() {
             const earthRadius = 1;
             const satelliteColors = [
@@ -987,52 +1146,55 @@
                 const altitudeOffset = Math.random() * (SATELLITE_ORBIT_MAX_ALT - SATELLITE_ORBIT_MIN_ALT) + SATELLITE_ORBIT_MIN_ALT;
                 const orbitRadius = earthRadius + altitudeOffset;
 
+                // Use the new createSatelliteModel function
                 const mainColor = satelliteColors[Math.floor(Math.random() * satelliteColors.length)];
                 const satelliteGroup = createSatelliteModel(mainColor);
 
-                const inclination = THREE.MathUtils.degToRad(Math.random() * 180);
-                const ascendingNode = THREE.MathUtils.degToRad(Math.random() * 360);
+                // Random initial position on a sphere around Earth
+                const lat = Math.random() * 180 - 90;
+                const lon = Math.random() * 360 - 180;
+                const position = convertSphericalToCartesian(lat, lon, orbitRadius);
+                satelliteGroup.position.copy(position);
 
-                const orbitalPlaneGroup = new THREE.Group();
-                orbitalPlaneGroup.rotation.x = inclination;
-                orbitalPlaneGroup.rotation.y = ascendingNode;
+                // Add a random Y offset for varied inclinations
+                const yOffset = (Math.random() - 0.5) * (SATELLITE_ORBIT_MAX_ALT - SATELLITE_ORBIT_MIN_ALT) * 0.5;
 
-                satelliteGroup.position.x = orbitRadius;
-                satelliteGroup.position.y = 0;
-                satelliteGroup.position.z = 0;
-
-                orbitalPlaneGroup.add(satelliteGroup);
-                scene.add(orbitalPlaneGroup);
-
-                orbitalPlaneGroup.name = `Generic Satellite Orbital Plane ${i + 1}`;
-                orbitalPlaneGroup.userData = {
+                // Add userData for click interaction and orbital properties
+                satelliteGroup.name = `Generic Satellite Group ${i + 1}`; // Name the group for raycasting
+                satelliteGroup.userData = {
                     type: 'Generic Satellite',
                     id: `SAT-${i + 1}`,
                     orbitRadius: orbitRadius.toFixed(2),
-                    orbitalSpeed: (Math.random() * 0.0005 + 0.0001) * (Math.random() < 0.5 ? 1 : -1),
-                    initialAngle: Math.random() * Math.PI * 2,
-                    yOffset: (Math.random() - 0.5) * (SATELLITE_ORBIT_MAX_ALT - SATELLITE_ORBIT_MIN_ALT) * 0.5,
-                    originalMaterialColor: mainColor,
-                    actualSatelliteMesh: satelliteGroup
+                    orbitalSpeed: (Math.random() * 0.0005 + 0.0001) * (Math.random() < 0.5 ? 1 : -1), // Slower orbital speed
+                    initialAngle: Math.random() * Math.PI * 2, // Initial angle offset for varied starting points
+                    yOffset: yOffset, // Store y offset for consistent inclination
+                    originalMaterialColor: mainColor // Store original main body color for hover effect
                 };
 
-                genericSatellites.push(orbitalPlaneGroup);
+                scene.add(satelliteGroup);
+                genericSatellites.push(satelliteGroup); // Store the group
             }
-        };
+        }
 
+        /**
+         * Creates 3D markers for each astronaut currently in space.
+         * These markers will orbit along with the ISS.
+         */
         function createAstronautMarkers() {
+            // Remove previous astronaut markers if any
             astronautMarkers.forEach(marker => scene.remove(marker));
             astronautMarkers = [];
 
-            const astronautGeometry = new THREE.SphereGeometry(0.01, 8, 8);
-            const astronautMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00, transparent: true, opacity: 0.8, blending: THREE.AdditiveBlending });
+            const astronautGeometry = new THREE.SphereGeometry(0.01, 8, 8); // Smallest sphere for astronauts
+            const astronautMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00, transparent: true, opacity: 0.8, blending: THREE.AdditiveBlending }); // Green glow
 
-            const baseRadius = 1 + 0.08;
-            const spreadRadius = 0.03;
+            const baseRadius = 1 + 0.08; // Earth radius + ISS altitude
+            const spreadRadius = 0.03; // How far to spread astronauts from ISS center
 
             astronautsNames.forEach((name, index) => {
-                const phi = Math.acos(2 * Math.random() - 1);
-                const theta = Math.random() * 2 * Math.PI;
+                // Generate a random position around the ISS (on a small sphere)
+                const phi = Math.acos(2 * Math.random() - 1); // Latitude
+                const theta = Math.random() * 2 * Math.PI; // Longitude
 
                 const offsetVec = new THREE.Vector3(
                     spreadRadius * Math.sin(phi) * Math.cos(theta),
@@ -1041,127 +1203,56 @@
                 );
 
                 const astronaut = new THREE.Mesh(astronautGeometry, astronautMaterial.clone());
-                astronaut.position.copy(issMarker.position).add(offsetVec);
-                astronaut.name = `Astronaut: ${name}`;
+                astronaut.position.copy(issMarker.position).add(offsetVec); // Initially position near ISS
+                astronaut.name = `Astronaut: ${name}`; // Name for identification
                 astronaut.userData = {
                     type: 'Astronaut',
                     name: name,
                     craft: 'ISS',
-                    originalColor: astronaut.material.color.clone()
+                    originalColor: astronaut.material.color.clone() // Store original color
                 };
                 scene.add(astronaut);
                 astronautMarkers.push(astronaut);
             });
-        };
+        }
 
-        function createStars() {
-            const starGeometry = new THREE.BufferGeometry();
-            const starVertices = [];
-            const starColors = [];
-            const numStars = 10000;
+        // --- Raycasting (Interaction) Functions ---
 
-            for (let i = 0; i < numStars; i++) {
-                const x = THREE.MathUtils.randFloatSpread(400);
-                const y = THREE.MathUtils.randFloatSpread(400);
-                const z = THREE.MathUtils.randFloatSpread(400);
-                starVertices.push(x, y, z);
-
-                const hue = Math.random();
-                const saturation = Math.random() * 0.3 + 0.7;
-                const lightness = Math.random() * 0.2 + 0.8;
-                const starColor = new THREE.Color().setHSL(hue, saturation, lightness);
-                starColors.push(starColor.r, starColor.g, starColor.b);
-            }
-            starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
-            starGeometry.setAttribute('color', new THREE.Float32BufferAttribute(starColors, 3));
-
-            const starMaterial = new THREE.PointsMaterial({
-                size: 0.2,
-                vertexColors: true,
-                transparent: true,
-                opacity: 0.9,
-                blending: THREE.AdditiveBlending
-            });
-
-            stars = new THREE.Points(starGeometry, starMaterial);
-            scene.add(stars);
-        };
-
-        function createAsteroidBelt() {
-            const asteroidGeometry = new THREE.SphereGeometry(0.01, 8, 8);
-            const asteroidMaterial = new THREE.MeshStandardMaterial({ color: 0x886644, roughness: 0.8, metalness: 0.1 });
-            asteroidBelt = new THREE.Group();
-
-            for (let i = 0; i < NUM_ASTEROIDS; i++) {
-                const asteroid = new THREE.Mesh(asteroidGeometry, asteroidMaterial);
-                
-                const distance = THREE.MathUtils.randFloat(ASTEROID_BELT_MIN_RADIUS, ASTEROID_BELT_MAX_RADIUS);
-                const angle = Math.random() * Math.PI * 2;
-                const inclination = THREE.MathUtils.degToRad(THREE.MathUtils.randFloatSpread(10));
-
-                asteroid.position.x = distance * Math.cos(angle);
-                asteroid.position.y = distance * Math.sin(angle) * Math.sin(inclination);
-                asteroid.position.z = distance * Math.sin(angle) * Math.cos(inclination);
-
-                asteroid.rotation.x = Math.random() * Math.PI;
-                asteroid.rotation.y = Math.random() * Math.PI;
-                asteroid.rotation.z = Math.random() * Math.PI;
-
-                asteroid.userData = { type: 'Asteroid', id: `AST-${i + 1}`, description: 'A small rocky body orbiting the Sun.' };
-                asteroidBelt.add(asteroid);
-            }
-            scene.add(asteroidBelt);
-        };
-
-        function createOrbitPaths() {
-            const material = new THREE.LineBasicMaterial({ color: 0x333333, transparent: true, opacity: 0.3 });
-            const segments = 128;
-
-            const earthOrbitRadius = 1;
-            const earthPoints = [];
-            for (let i = 0; i <= segments; i++) {
-                const angle = (i / segments) * Math.PI * 2;
-                earthPoints.push(new THREE.Vector3(earthOrbitRadius * Math.cos(angle), 0, earthOrbitRadius * Math.sin(angle)));
-            }
-            const earthOrbitGeometry = new THREE.BufferGeometry().setFromPoints(earthPoints);
-            const earthOrbitLine = new THREE.Line(earthOrbitGeometry, material);
-            earthOrbitLine.name = "EarthOrbitPath";
-            scene.add(earthOrbitLine);
-            orbitPaths.push(earthOrbitLine);
-        };
-
+        /**
+         * Updates mouse coordinates when mouse moves. Used for raycasting.
+         * @param {MouseEvent|TouchEvent} event - The mouse or touch event.
+         */
         function onDocumentMouseMove(event) {
+            // Calculate mouse position in normalized device coordinates (-1 to +1)
+            // relative to the viewport.
             mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
             mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
-        };
+        }
 
+        /**
+         * Checks for hovered objects and applies/removes highlight.
+         */
         function checkHoveredObjects() {
             raycaster.setFromCamera(mouse, camera);
-            const interactableObjects = [issMarker, ...genericSatellites, ...astronautMarkers, ...asteroidBelt.children];
-            const intersects = raycaster.intersectObjects(interactableObjects, true);
+            // Earth is NOT included in interactableObjects for hover to avoid constant highlighting
+            const interactableObjects = [issMarker, ...genericSatellites, ...astronautMarkers];
+            const intersects = raycaster.intersectObjects(interactableObjects, true); // `true` for recursive search in groups
 
             if (intersects.length > 0) {
                 let foundObject = intersects[0].object;
+                // Traverse up to find the main object/group if a child mesh was intersected
                 while (foundObject && !foundObject.userData.type && foundObject.parent) {
                     foundObject = foundObject.parent;
                 }
 
                 if (foundObject && foundObject.userData.type) {
-                    let meshToHighlight = foundObject;
-                    if (foundObject.userData.type === 'Generic Satellite' && foundObject.children[0]) {
-                        meshToHighlight = foundObject.children[0];
-                    } else if (foundObject.userData.type === 'Asteroid') {
-                        meshToHighlight = foundObject;
-                    }
-
-
-                    if (currentlyHoveredObject !== meshToHighlight) {
+                    if (currentlyHoveredObject !== foundObject) {
                         if (currentlyHoveredObject) {
                             restoreOriginalColor(currentlyHoveredObject);
                         }
-                        applyHighlightColor(meshToHighlight);
-                        currentlyHoveredObject = meshToHighlight;
-                        webglContainer.classList.add('hovering');
+                        applyHighlightColor(foundObject);
+                        currentlyHoveredObject = foundObject;
+                        webglContainer.classList.add('hovering'); // Change cursor
                     }
                 } else {
                     if (currentlyHoveredObject) {
@@ -1177,27 +1268,44 @@
                     webglContainer.classList.remove('hovering');
                 }
             }
-        };
+        }
 
-        function applyHighlightColor(mesh) {
-            if (mesh && mesh.material && mesh.material.color) {
-                if (!mesh.userData.originalColor) {
-                    mesh.userData.originalColor = mesh.material.color.clone();
-                }
-                mesh.material.color.set(0x00ffaa);
+        /**
+         * Applies a highlight color to the given object.
+         * @param {THREE.Object3D} object - The object to highlight.
+         */
+        function applyHighlightColor(object) {
+            // Check if the object itself has a material, or its first child (for groups like satellites)
+            if (object.material && object.material.color) { // Ensure material and color exist
+                object.userData.originalColor = object.material.color.clone(); // Store original
+                object.material.color.set(0x00ffaa); // Greenish highlight
+            } else if (object.children && object.children[0] && object.children[0].material && object.children[0].material.color) {
+                const mainBodyMaterial = object.children[0].material;
+                object.userData.originalColor = mainBodyMaterial.color.clone(); // Store original
+                mainBodyMaterial.color.set(0x00ffaa); // Greenish highlight
             }
-        };
+        }
 
-        function restoreOriginalColor(mesh) {
-            if (mesh && mesh.material && mesh.userData.originalColor) {
-                mesh.material.color.copy(mesh.userData.originalColor);
-                mesh.userData.originalColor = null;
+        /**
+         * Restores the original color of the given object.
+         * @param {THREE.Object3D} object - The object to restore.
+         */
+        function restoreOriginalColor(object) {
+            if (object.material && object.userData.originalColor) {
+                object.material.color.copy(object.userData.originalColor);
+            } else if (object.children && object.children[0] && object.children[0].material && object.userData.originalColor) {
+                object.children[0].material.color.copy(object.userData.originalColor);
             }
-        };
+        }
 
+        /**
+         * Handles click events on the WebGL container to detect clicked 3D objects.
+         * @param {MouseEvent|TouchEvent} event - The mouse or touch event.
+         */
         function onDocumentClick(event) {
             raycaster.setFromCamera(mouse, camera);
-            const interactableObjects = [issMarker, ...genericSatellites, ...astronautMarkers, ...asteroidBelt.children];
+            // Earth is NOT included here as per user request (too annoying to click)
+            const interactableObjects = [issMarker, ...genericSatellites, ...astronautMarkers];
             const intersects = raycaster.intersectObjects(interactableObjects, true);
 
             if (intersects.length > 0) {
@@ -1207,67 +1315,91 @@
                 }
 
                 if (foundObject && foundObject.userData.type) {
-                    clicked3DObject = foundObject;
+                    clicked3DObject = foundObject; // Store the clicked object for modal button actions
                     let infoTitle = "Object Info";
                     let infoContent = "No additional information available.";
 
+                    // Apply a click animation (e.g., scale up briefly)
                     const originalScale = clicked3DObject.scale.clone();
-                    clicked3DObject.scale.set(originalScale.x * 1.2, originalScale.y * 1.2, originalScale.z * 1.2);
+                    clicked3DObject.scale.set(originalScale.x * 1.2, originalScale.y * 1.2, originalScale.z * 1.2); // Scale up
                     new TWEEN.Tween(clicked3DObject.scale)
-                        .to(originalScale, 200)
+                        .to(originalScale, 200) // Scale back to original
                         .easing(TWEEN.Easing.Quadratic.Out)
                         .start();
 
                     if (clicked3DObject.name === "ISS") {
                         infoTitle = "International Space Station";
-                        infoContent = `Status: In Orbit<br>Current Location: Lat ${issLatitude.toFixed(2)}, Lon ${issLongitude.toFixed(2)}<br>Crew On Board: ${astronauts} astronauts`;
+                        infoContent = `Status: In Orbit<br>
+                                       Current Location: Lat ${issLatitude.toFixed(2)}, Lon ${issLongitude.toFixed(2)}<br>
+                                       Crew On Board: ${astronauts} astronauts`;
                     } else if (clicked3DObject.userData.type === 'Astronaut') {
                         infoTitle = `Astronaut: ${clicked3DObject.userData.name}`;
-                        infoContent = `Craft: ${clicked3DObject.userData.craft}<br>Currently in the vicinity of the ISS.`;
+                        infoContent = `Craft: ${clicked3DObject.userData.craft}<br>
+                                       Currently in the vicinity of the ISS.`;
                     } else if (clicked3DObject.userData.type === 'Generic Satellite') {
                         infoTitle = `Satellite: ${clicked3DObject.userData.id}`;
-                        infoContent = `Type: ${clicked3DObject.userData.type}<br>Approx. Orbit Radius: ${clicked3DObject.userData.orbitRadius} Earth Radii<br>Orbital Speed: ${(clicked3DObject.userData.orbitalSpeed * 1000).toFixed(3)} rad/sec<br>(Generic orbital path and design)`;
-                    } else if (clicked3DObject.userData.type === 'Asteroid') {
-                        infoTitle = `Asteroid: ${clicked3DObject.userData.id}`;
-                        infoContent = `Type: ${clicked3DObject.userData.type}<br>Description: ${clicked3DObject.userData.description}<br>(Randomly generated for visual effect)`;
+                        infoContent = `Type: ${clicked3DObject.userData.type}<br>
+                                       Approx. Orbit Radius: ${clicked3DObject.userData.orbitRadius} Earth Radii<br>
+                                       Orbital Speed: ${(clicked3DObject.userData.orbitalSpeed * 1000).toFixed(3)} rad/sec<br>
+                                       (Generic orbital path and design)`;
                     }
+                    // Earth click is intentionally not handled here.
 
-                    showObjectInfo(infoTitle, infoContent);
+                    showObjectInfo(infoTitle, infoContent); // Show the modal with the gathered info.
                 } else {
+                    // Clicking on empty space or non-interactable object should close modal
                     hideObjectInfo();
                 }
             } else {
+                // Clicking on empty space should close modal
                 hideObjectInfo();
             }
-        };
+        }
 
+        /**
+         * Shows the object information modal with given title and content.
+         * This version always centers the modal on the screen.
+         * @param {string} title - The title for the modal.
+         * @param {string} content - The HTML content for the modal.
+         */
         function showObjectInfo(title, content) {
             modalTitle.innerText = title;
-            modalContent.innerHTML = content;
+            modalContent.innerHTML = content; // Use innerHTML for line breaks.
 
-            objectInfoModal.style.display = 'block';
-            objectInfoModal.classList.add('show');
-        };
+            objectInfoModal.style.display = 'block'; // Make visible
+            objectInfoModal.classList.add('show'); // Show with fade effect
+        }
 
 
+        /**
+         * Hides the object information modal.
+         */
         function hideObjectInfo() {
+            // Check if the modal is currently shown before starting fade-out to prevent glitches
             if (objectInfoModal.classList.contains('show')) {
-                objectInfoModal.classList.remove('show');
+                objectInfoModal.classList.remove('show'); // Start fade-out
                 objectInfoModal.addEventListener('transitionend', function handler() {
-                    objectInfoModal.style.display = 'none';
+                    objectInfoModal.style.display = 'none'; // Fully hide after transition
                     objectInfoModal.removeEventListener('transitionend', handler);
                 }, { once: true });
             } else {
+                // If it's not showing, just ensure it's hidden immediately
                 objectInfoModal.style.display = 'none';
             }
-        };
+        }
 
+        // --- UI Update Function ---
         function updateDataOverlay() {
             apodTitleSpan.innerText = apodTitle;
             issCoordsSpan.innerText = `Lat: ${issLatitude.toFixed(2)}, Lon: ${issLongitude.toFixed(2)}`;
             astronautCountSpan.innerText = astronauts;
-        };
+        }
 
+        /**
+         * Helper Function: `showErrorMessage(message)`
+         * Displays a temporary error message to the user.
+         * @param {string} message - The error message to display.
+         */
         function showErrorMessage(message) {
             errorMessageDiv.innerText = message;
             errorMessageDiv.style.display = 'block';
@@ -1277,137 +1409,168 @@
             errorMessageTimeout = setTimeout(() => {
                 errorMessageDiv.style.display = 'none';
             }, ERROR_DISPLAY_DURATION);
-        };
+        }
 
+        /**
+         * Helper Function: `hideIntroScreen()`
+         * Hides the introductory screen by adding a 'hidden' class, triggering a CSS fade-out.
+         */
         function hideIntroScreen() {
             introScreen.classList.add('hidden');
-        };
+        }
 
+        // --- Control Panel Functions ---
         function toggleAutoRotate() {
             controls.autoRotate = !controls.autoRotate;
             toggleRotateButton.innerText = controls.autoRotate ? 'Disable Auto-Rotate' : 'Enable Auto-Rotate';
-        };
+        }
 
         function recenterCamera() {
-            camera.position.set(0, 0, 2);
-            controls.target.set(0, 0, 0);
+            // Reset camera to default position and target Earth (0,0,0)
+            camera.position.set(0, 0, 2); // Closer to Earth
+            controls.target.set(0, 0, 0); // Focus on Earth's center
             controls.update();
-            controls.autoRotate = true;
+            controls.autoRotate = true; // Re-enable auto-rotate
             toggleRotateButton.innerText = 'Disable Auto-Rotate';
-        };
+        }
 
+        /**
+         * Toggles the visibility of all generic satellites.
+         */
         function toggleSatellitesVisibility() {
+            // Check visibility of the first satellite to determine current state
             const areSatellitesVisible = genericSatellites.length > 0 && genericSatellites[0].visible;
             genericSatellites.forEach(satellite => {
                 satellite.visible = !areSatellitesVisible;
             });
+            // Update button text
             toggleSatellitesButton.innerText = areSatellitesVisible ? 'Hide Satellites' : 'Show Satellites';
-        };
+        }
 
-        function toggleAsteroidBeltVisibility() {
-            asteroidBelt.visible = !asteroidBelt.visible;
-            toggleAsteroidBeltButton.innerText = asteroidBelt.visible ? 'Hide Asteroid Belt' : 'Show Asteroid Belt';
-        };
-
-        function toggleOrbitPathsVisibility() {
-            const arePathsVisible = orbitPaths.length > 0 && orbitPaths[0].visible;
-            orbitPaths.forEach(path => {
-                path.visible = !arePathsVisible;
-            });
-            toggleOrbitPathsButton.innerText = arePathsVisible ? 'Hide Orbit Paths' : 'Show Orbit Paths';
-        };
-
+        /**
+         * Smoothly moves the camera and controls target to focus on a given 3D object.
+         * @param {THREE.Object3D} object - The Three.js object to focus on.
+         */
         function focusCameraOnObject(object) {
-            hideObjectInfo();
+            hideObjectInfo(); // Hide info modal
 
+            // Get the world position of the object
             const targetPosition = new THREE.Vector3();
             object.getWorldPosition(targetPosition);
 
-            let distance = 0.5;
+            // Calculate a good camera position to view the object
+            // Adjust offset distance based on object type/size if needed, e.g., larger for ISS than astronaut
+            let distance = 0.5; // Default distance for smaller objects
             if (object.name === "ISS") {
-                distance = 0.3;
+                distance = 0.3; // Closer for ISS for better detail
             } else if (object.userData.type === 'Generic Satellite') {
-                distance = 0.15;
+                distance = 0.15; // Even closer for generic satellites
             } else if (object.userData.type === 'Astronaut') {
-                distance = 0.05;
-            } else if (object.userData.type === 'Asteroid') {
-                distance = 0.08;
+                distance = 0.05; // Very close for astronauts
             }
+
 
             const offset = new THREE.Vector3(0.5, 0.5, 1.5).normalize().multiplyScalar(distance);
             const newCameraPosition = targetPosition.clone().add(offset);
 
+            // Stop auto-rotate during animation
             controls.autoRotate = false;
-            toggleRotateButton.innerText = 'Enable Auto-Rotate';
+            toggleRotateButton.innerText = 'Enable Auto-Rotate'; // Update button text
 
+            // Tween camera position
             new TWEEN.Tween(camera.position)
                 .to({ x: newCameraPosition.x, y: newCameraPosition.y, z: newCameraPosition.z }, 1000)
                 .easing(TWEEN.Easing.Quadratic.InOut)
                 .start();
 
+            // Tween controls target
             new TWEEN.Tween(controls.target)
                 .to({ x: targetPosition.x, y: targetPosition.y, z: targetPosition.z }, 1000)
                 .easing(TWEEN.Easing.Quadratic.InOut)
-                .onUpdate(() => controls.update())
+                .onUpdate(() => controls.update()) // Update controls during tween
                 .start();
-        };
+        }
 
+        /**
+         * Sends a query to the AI Assistant based on the clicked 3D object's information.
+         * @param {THREE.Object3D} object - The 3D object to ask about.
+         */
         function askAIAboutObject(object) {
-            hideObjectInfo();
-            toggleChatMinimize();
-            chatInput.focus();
+            hideObjectInfo(); // Hide info modal
+            toggleChatMinimize(); // Ensure chat is open
+            chatInput.focus(); // Focus input field
 
             let objectName = object.userData.name || object.name || "this object";
             let objectType = object.userData.type || "celestial object";
             
+            // Customize prompt based on object type to get shorter, helpful answers
             let questionPrompt;
             if (object.name === 'ISS') {
-                questionPrompt = `Give me 1-3 concise and helpful facts about the International Space Station (ISS) mission.`;
+                questionPrompt = `Give me 1-3 concise and helpful facts about the International Space Station (ISS) mission.`; // Shorter, more direct
             } else if (object.userData.type === 'Generic Satellite') {
-                questionPrompt = `Give me 1-3 concise and helpful facts about the common purposes of artificial Earth-orbiting satellites.`;
+                questionPrompt = `Give me 1-3 concise and helpful facts about the common purposes of artificial Earth-orbiting satellites.`; // Shorter, more direct
             } else if (object.userData.type === 'Astronaut') {
-                 questionPrompt = `Give me 1-3 concise and helpful facts about what astronauts experience or do in space.`;
+                 questionPrompt = `Give me 1-3 concise and helpful facts about what astronauts experience or do in space.`; // Shorter, more direct
             } else if (object.name === 'Earth' && object.userData.type === 'Planet') {
-                 questionPrompt = `Give me 1-3 concise fascinating and helpful facts about Earth.`;
-            } else if (object.userData.type === 'Asteroid') {
-                 questionPrompt = `Give me 1-3 concise and helpful facts about asteroids.`;
+                 questionPrompt = `Give me 1-3 concise fascinating and helpful facts about Earth.`; // Shorter, more direct
             } else {
-                 questionPrompt = `Give me 1-3 concise and helpful facts about ${objectName}.`;
+                 questionPrompt = `Give me 1-3 concise and helpful facts about ${objectName}.`; // General, shorter
             }
 
+            // Simulate typing the question into the chat input and sending it
             chatInput.value = questionPrompt;
             sendChatMessage();
-        };
+        }
 
+
+        // --- AI Assistant Functions ---
+
+        /**
+         * Toggles the minimized state of the chat assistant window.
+         */
         function toggleChatMinimize() {
             chatAssistantContainer.classList.toggle('minimized');
             chatMinimizeButton.innerText = chatAssistantContainer.classList.contains('minimized') ? '+' : '_';
-        };
+        }
 
+        /**
+         * Adds a message to the chat window.
+         * @param {string} message - The message text.
+         * @param {string} sender - 'user' or 'ai'.
+         */
         function addChatMessage(message, sender) {
             const messageElement = document.createElement('div');
             messageElement.classList.add('chat-message', sender);
             messageElement.innerText = message;
             chatWindow.appendChild(messageElement);
-            chatWindow.scrollTop = chatWindow.scrollHeight;
-        };
+            chatWindow.scrollTop = chatWindow.scrollHeight; // Auto-scroll to bottom
+        }
 
+        /**
+         * Updates the chat window by re-rendering messages from chatHistory.
+         * Used on initial load or when chatHistory changes.
+         */
         function updateChatWindow() {
-            chatWindow.innerHTML = '';
+            chatWindow.innerHTML = ''; // Clear existing messages
             chatHistory.forEach(msg => {
                 addChatMessage(msg.parts[0].text, msg.role === 'user' ? 'user' : 'ai');
             });
-        };
+        }
 
+        /**
+         * Sends a user message to the AI and fetches a response from the Gemini API.
+         */
         async function sendChatMessage() {
             const userMessage = chatInput.value.trim();
             if (userMessage === '') return;
 
             addChatMessage(userMessage, 'user');
-            chatInput.value = '';
+            chatInput.value = ''; // Clear input
 
+            // Add user message to history
             chatHistory.push({ role: "user", parts: [{ text: userMessage }] });
 
+            // Show typing indicator and disable input/send button
             aiTypingIndicator.style.display = 'block';
             chatInput.disabled = true;
             chatSendButton.disabled = true;
@@ -1415,10 +1578,9 @@
 
             try {
                 const payload = { contents: chatHistory };
-                const apiKey = geminiApiKey;
+                const apiKey = geminiApiKey; // Auto-provided by Canvas environment
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
-                console.log("Sending AI request to:", apiUrl); // Debugging: Log API URL
                 const response = await fetch(apiUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -1429,14 +1591,9 @@
                     const errorText = await response.text();
                     console.error('Gemini API Error Response:', response.status, errorText);
                     if (response.status === 401) {
-                        addChatMessage("AI: Error 401 Unauthorized. This often means the API key is not set up correctly in your environment.", 'ai');
-                        showErrorMessage("AI Unauthorized: Check environment API key setup.");
+                        addChatMessage("AI: Error 401 Unauthorized. Please check your API key setup in the environment.", 'ai');
                     } else if (response.status === 400) {
-                         addChatMessage("AI: Error 400 Bad Request. The prompt might be too complex or malformed for the AI.", 'ai');
-                         showErrorMessage("AI Bad Request: Review prompt content.");
-                    } else {
-                        addChatMessage(`AI: Network error: ${response.status}. Please try again.`, 'ai');
-                        showErrorMessage(`AI Network Error: Status ${response.status}.`);
+                         addChatMessage("AI: Error 400 Bad Request. The prompt might be too complex or malformed.", 'ai');
                     }
                     throw new Error(`Gemini API HTTP error! status: ${response.status}`);
                 }
@@ -1448,15 +1605,15 @@
                     result.candidates[0].content.parts.length > 0) {
                     const aiResponseText = result.candidates[0].content.parts[0].text;
                     addChatMessage("AI: " + aiResponseText, 'ai');
+                    // Add AI response to history
                     chatHistory.push({ role: "model", parts: [{ text: aiResponseText }] });
                 } else {
-                    addChatMessage("AI: I couldn't generate a response. The AI might be blocked or the response was empty. Please try asking something else.", 'ai');
+                    addChatMessage("AI: I couldn't generate a response. Please try asking something else.", 'ai');
                     console.warn('Gemini API response structure unexpected:', result);
-                    showErrorMessage("AI Response Empty: Check console for details.");
                 }
             } catch (error) {
                 console.error('Error fetching AI response:', error);
-                if (!isAITyping) {
+                if (!isAITyping) { // Only show general error if specific one wasn't added
                     addChatMessage("AI: Sorry, I'm having trouble connecting right now. Please try again later.", 'ai');
                 }
                 showErrorMessage(`AI Assistant Error: ${error.message}.`);
@@ -1465,10 +1622,14 @@
                 chatInput.disabled = false;
                 chatSendButton.disabled = false;
                 isAITyping = false;
-                chatInput.focus();
+                chatInput.focus(); // Return focus to input field
             }
-        };
+        }
 
+        /**
+         * `fetchAPOD()`: Asynchronously fetches the Astronomy Picture of the Day from NASA's API.
+         * Loads the image as a Three.js texture for the Earth, or a default Earth texture if APOD is not an image.
+         */
         async function fetchAPOD() {
             try {
                 const response = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${NASA_API_KEY}`);
@@ -1479,8 +1640,11 @@
 
                 apodTitle = data.title || "Untitled APOD";
 
-                let textureToLoadUrl = '[https://unpkg.com/three-globe@2.27.6/example/img/earth-blue-marble.jpg](https://unpkg.com/three-globe@2.27.6/example/img/earth-blue-marble.jpg)';
+                // Using earth-blue-marble.jpg for a more vibrant and consistently colored Earth texture
+                let textureToLoadUrl = 'https://unpkg.com/three-globe@2.27.6/example/img/earth-blue-marble.jpg'; 
                 if (data.media_type === 'image') {
+                    // APOD image is not used for Earth texture unless explicitly a suitable Earth map.
+                    // For general astronomical images, they wouldn't look right on a spherical Earth.
                 } else if (data.media_type === 'video') {
                     console.warn('APOD is a video. Not using as Earth texture.');
                     apodTitle += " (Video)";
@@ -1498,12 +1662,12 @@
                             console.log('Earth texture loaded successfully.');
                         }
                     },
-                    undefined,
+                    undefined, // onProgress callback (optional)
                     (err) => {
                         console.error('Failed to load Earth texture (APOD or default):', err);
                         if (earth) {
                             earth.material.map = null;
-                            earth.material.color.set(0x0000FF);
+                            earth.material.color.set(0x0000FF); // Blue color fallback
                             earth.material.needsUpdate = true;
                         }
                         showErrorMessage('Failed to load Earth texture. Using default color.');
@@ -1512,8 +1676,9 @@
             } catch (error) {
                 console.error('Error fetching APOD data:', error);
                 apodTitle = "Error fetching APOD";
+                // Even if APOD data fetch fails, try to load the default Earth texture
                 new THREE.TextureLoader().load(
-                    '[https://unpkg.com/three-globe@2.27.6/example/img/earth-blue-marble.jpg](https://unpkg.com/three-globe@2.27.6/example/img/earth-blue-marble.jpg)',
+                    'https://unpkg.com/three-globe@2.27.6/example/img/earth-blue-marble.jpg', // Fallback to blue marble
                     (texture) => {
                         if (earth) {
                             earth.material.map = texture;
@@ -1532,11 +1697,15 @@
                 );
                 showErrorMessage('Failed to fetch APOD data. Using default Earth texture.');
             }
-        };
+        }
 
+        /**
+         * `fetchISSLocation()`: Asynchronously fetches the current location of the International Space Station.
+         * Uses a CORS proxy to ensure successful data retrieval.
+         */
         async function fetchISSLocation() {
             try {
-                const response = await fetch('[https://corsproxy.io/?http://api.open-notify.org/iss-now.json](https://corsproxy.io/?http://api.open-notify.org/iss-now.json)');
+                const response = await fetch('https://corsproxy.io/?http://api.open-notify.org/iss-now.json');
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
@@ -1552,19 +1721,25 @@
                 console.error('Error fetching ISS location:', error);
                 showErrorMessage(`Failed to fetch ISS location: ${error.message}.`);
             }
-        };
+        }
 
+        /**
+         * `fetchPeopleInSpace()`: Asynchronously fetches the number of people currently in space and their names.
+         * Updates astronaut markers based on this data.
+         * Uses a CORS proxy for reliable access.
+         */
         async function fetchPeopleInSpace() {
             try {
-                const response = await fetch('[https://corsproxy.io/?http://api.open-notify.org/astros.json](https://corsproxy.io/?http://api.open-notify.org/astros.json)');
+                const response = await fetch('https://corsproxy.io/?http://api.open-notify.org/astros.json');
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 const data = await response.json();
                 if (data && data.number !== undefined && data.people) {
                     astronauts = parseInt(data.number);
-                    astronautsNames = data.people.map(p => p.name);
+                    astronautsNames = data.people.map(p => p.name); // Store names
 
+                    // Update or create astronaut markers based on fetched names
                     createAstronautMarkers();
 
                 } else {
@@ -1575,7 +1750,7 @@
                 console.error('Error fetching people in space:', error);
                 showErrorMessage(`Failed to fetch astronauts count: ${error.message}.`);
             }
-        };
+        }
     </script>
 </body>
 </html>
