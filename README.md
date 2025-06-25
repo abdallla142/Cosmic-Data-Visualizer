@@ -1,6 +1,6 @@
 # Cosmic Data Visualizer (3D Interactive)
 
-##LINK:https://abdallla142.github.io/Cosmic-Data-Visualizer/
+## LINK:https://abdallla142.github.io/Cosmic-Data-Visualizer/
 
 
 ## Overview
